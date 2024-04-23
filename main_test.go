@@ -1,6 +1,7 @@
 package iptype
 
 import (
+	"fmt"
 	"net"
 	"testing"
 
@@ -39,4 +40,8 @@ func TestGetIPTypes(t *testing.T) {
 	var ipTypes, err = GetIPTypes()
 	assert.NoError(t, err)
 	assert.True(t, len(ipTypes) > 0)
+
+	for _, ipt := range ipTypes {
+		fmt.Printf("addr: %s, type: %s \n", ipt.IP, ipt.IPScope)
+	}
 }
