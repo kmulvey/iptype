@@ -155,7 +155,8 @@ func GetIPTypes() ([]IPType, error) {
 }
 
 func categorizeIP(addr net.IP) (IPType, error) {
-	if strings.Count(addr.String(), ":") < 2 {
+	switch {
+	case strings.Count(addr.String(), ":") < 2:
 		if ipArr := addr.To4(); ipArr != nil {
 			if networks, found := v4NetworkPrefixes[ipArr[0]]; found {
 				for _, network := range networks {
@@ -165,7 +166,7 @@ func categorizeIP(addr net.IP) (IPType, error) {
 				}
 			}
 		}
-	} else if strings.Count(addr.String(), ":") >= 2 {
+	case strings.Count(addr.String(), ":") >= 2:
 		if ipArr := addr.To16(); ipArr != nil {
 			if networks, found := v6NetworkPrefixes[binary.BigEndian.Uint16(ipArr[:2])]; found {
 				for _, network := range networks {
@@ -175,7 +176,7 @@ func categorizeIP(addr net.IP) (IPType, error) {
 				}
 			}
 		}
-	} else {
+	default:
 		return IPType{addr, Invalid}, fmt.Errorf("ip address %s is invalid", addr)
 	}
 
