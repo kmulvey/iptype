@@ -22,8 +22,15 @@ func TestCategorizeIP(t *testing.T) {
 	var ipType, err = categorizeIP(ip)
 	assert.NoError(t, err)
 
-	assert.Equal(t, ipType.IP, ip)
-	assert.Equal(t, ipType.IPScope, Software)
+	assert.Equal(t, ip, ipType.IP)
+	assert.Equal(t, Software, ipType.IPScope)
+
+	ip = net.ParseIP("71.222.203.13")
+	ipType, err = categorizeIP(ip)
+	assert.NoError(t, err)
+
+	assert.Equal(t, ip, ipType.IP)
+	assert.Equal(t, Public, ipType.IPScope)
 }
 
 func TestGetAddresses(t *testing.T) {
