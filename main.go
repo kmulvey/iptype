@@ -155,7 +155,6 @@ func GetIPTypes() ([]IPType, error) {
 }
 
 func categorizeIP(addr net.IP) (IPType, error) {
-	// previously tested if isZeros(addr[:10]) was true but it doesnt seem enough
 	if strings.Count(addr.String(), ":") < 2 {
 		if ipArr := addr.To4(); ipArr != nil {
 			if networks, found := v4NetworkPrefixes[ipArr[0]]; found {
@@ -217,14 +216,4 @@ func getAddresses() ([]net.IP, error) {
 		}
 	}
 	return ips, nil
-}
-
-// Is ip all zeros?
-func isZeros(ip net.IP) bool {
-	for i := 0; i < len(ip); i++ {
-		if ip[i] != 0 {
-			return false
-		}
-	}
-	return true
 }
